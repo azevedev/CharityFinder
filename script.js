@@ -25,6 +25,7 @@ function get_themes(){
                 text_html += '<option value="'+item.id+'">'+item.name+'</option>';
             });
             themes_input.innerHTML = text_html;
+            $('#select_themes').show();
         },
         error: function(data){
             console.error(data);
@@ -47,10 +48,12 @@ $("#select_continent").click(function(){
         show_contries(op_value);
     }else{
         $('#select_country').hide();
+        $('#not_select_country').show();
     }
 });
 
 function show_contries(op){
+    $('#not_select_country').hide();
     data.forEach(function(item, index){
         if(op == index){
             var countries = item.countries;
@@ -101,6 +104,8 @@ $("#go").click(function(){
             if(data.search.response.numberFound > 0){
                 var projects = data.search.response.projects.project;
                 // console.log(data.search.response.projects);
+                
+                $("#results")[0].innerHTML = "";
                 projects.forEach(addToBody);
             }
             
@@ -110,9 +115,51 @@ $("#go").click(function(){
             console.error(data);
         }
     });
+    $(this).blur();
 });
 
 
 function addToBody(item){
     console.log(item);
+    var title = item.title;
+    var summary = item.summary;
+    var length = 200;
+    summary = summary.substring(0, length);
+    summary += '...';
+    var category = item.themeName;
+    var imgUrl = item.imageLink;
+    var websiteLink = item.contactUrl;
+    var projectLink = item.projectLink; 
+    var htmlText = '<div class="card">';
+    htmlText += '<div class="category">'+category+'</div>';
+    var cardImgHtml = '<img src="'+imgUrl+'" width="100% height="auto">';
+    htmlText += '<div class="card-img">'+cardImgHtml+'</div>';
+    htmlText += '<div class="card-body">';
+    htmlText += '<div class="header-content"><h2>'+title+'</h2></div><br><br>';
+    var linkHtml = '<a href="'+projectLink+'" target="_blank">Read more >></a>';
+    htmlText += '<div class="main-content">'+summary+'<br>'+linkHtml+'</div>';
+    linkHtml = '<a href="'+websiteLink+'" target="_blank">Visit Website</a>';
+    htmlText += '<div class="footer-content">'+linkHtml+'</div><br>';
+    $("#results")[0].innerHTML += htmlText;
 }
+
+
+// <div class="card">
+//                 <div class="category">
+//                     Education
+//                 </div>
+//                 <div class="card-img">
+//                     <img src="https://cdn01.buxtonco.com/client_logos/1168/blattbeertable__medium.png" alt="" width="100%">
+//                 </div>
+//                 <div class="card-body">
+//                     <div class="header-content">
+//                         <h2>Title of Project</h2>
+//                     </div>
+//                     <div class="main-content" style="text-align: left;">
+//                         This is just a sumary. Lorem ipsum dolor sit amet consectetur adipisicing elit. Error dolor voluptatem hic soluta fugit, expedita enim consequatur, quas iusto ullam quasi sunt suscipit rem eos molestias perferendis tempore quibusdam cumque.
+//                     </div>
+//                     <div class="footer-content">
+//                         <a href="#" target="_blank">Visit Website</a>
+//                     </div>
+//                 </div>
+//             </div>

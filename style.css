@@ -92,39 +92,44 @@ r{
     color: black;
 }
 
-.resp-items{
+.search{
     display: flex;
-    flex-direction: row;
     justify-content: center;
-    justify-items: center;
-    text-align: center;
-    padding: 12px;
+    flex-wrap: wrap;
 }
 
-.item{
-    align-self: center;
-    width: 100%;
-    margin: 10px;
-    background: transparent;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    justify-items: center;
-    font-size: 0.85em;
+.filter{
+    margin: 4px;
     padding: 8px;
+    margin-bottom: 32px;
+    width: 300px;
+    background: rgba(255, 255, 255,0.6);
     border-radius: 8px;
 }
 
+.filter input{
+    width: 80%;
+    height: 25px;
+    padding: 4px;
+}
 
 .footer{
     position: absolute;
     bottom: 0;
     text-align: center;
     width: 100%;
-    background: #101010;
-    color: white;
+    background: white;
+    color: black;
     padding: 12px;
 }
+
+#go{
+    padding: 4px 60px;
+    background: blueviolet;
+    border: none;
+    transition: all 0.3s;
+}
+
 
 .btn-primary{
     color: white;
@@ -136,9 +141,83 @@ r{
     transition: background 0.3s;
 }
 
-.btn-primary:hover{
+#go:hover, .btn-primary:hover{
     background: darkmagenta;
 }
-.btn-primary:focus{
+#go:focus, .btn-primary:focus{
     background: darkred;
+}
+
+.main-content{
+    text-align: left;
+}
+
+.main-content a{
+    color: white;
+}
+
+#results{
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.card{
+    padding: 0;
+    margin: 16px;
+    margin-bottom: 24px;
+    max-width: 280px;
+    position: relative;
+    background: #515151;
+    transition: all 0.3s;
+}
+
+.card:hover{
+    box-shadow: 0px 10px 15px black;
+    transform: translateY(-4px);
+}
+
+.category{
+    color: white;
+    font-weight: 800;
+    padding: 4px;
+    margin: 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    border: none;
+    background: darkgoldenrod;
+}
+
+
+.card-body{
+    width: 100%;
+    min-height: 300px;
+    background: #515151;
+    padding: 14px;
+    color: white;
+}
+
+
+.footer-content{
+    margin: 8px;
+    margin-top: 30px;
+    position: absolute;
+    bottom: 0px;
+    left: 25%;
+}
+
+.footer-content a{
+    color: black;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 6px;
+    background: white;
+    transition: all 0.4s;
+}
+
+.footer-content a:hover{
+    color: gold;
+    background: black;
 }
