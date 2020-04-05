@@ -87,10 +87,33 @@ r{
     text-align: center;
 }
 
+.resp-items{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+    padding: 12px;
+}
+
+.item{
+    align-self: center;
+    width: 100%;
+    margin: 10px;
+    background: transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    font-size: 0.85em;
+    padding: 8px;
+    border-radius: 8px;
+}
 
 .how{
     color: black;
 }
+
 
 .search{
     display: flex;
@@ -128,6 +151,9 @@ r{
     background: blueviolet;
     border: none;
     transition: all 0.3s;
+    color: white;
+    font-weight: 800;
+    border-radius: 4px;
 }
 
 

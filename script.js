@@ -20,12 +20,14 @@ function get_themes(){
         success: function(data) {
             themes = data.themes.theme;
             var themes_input = $('#select_themes')[0];
-            var text_html = '<option value="-1" selected >-- Select --</option>'; 
-            themes.forEach(function(item){
-                text_html += '<option value="'+item.id+'">'+item.name+'</option>';
-            });
-            themes_input.innerHTML = text_html;
-            $('#select_themes').show();
+            if(themes_input){
+                var text_html = '<option value="-1" selected >-- Select --</option>'; 
+                themes.forEach(function(item){
+                    text_html += '<option value="'+item.id+'">'+item.name+'</option>';
+                });
+                themes_input.innerHTML = text_html;
+                $('#select_themes').show();
+            }
         },
         error: function(data){
             console.error(data);
@@ -35,11 +37,13 @@ function get_themes(){
 
 function show_continents(){
     var cont = $('#select_continent')[0];
-    var text_html = '<option value="-1" selected >-- Select --</option>';
-    data.forEach(function(item, index){
-        text_html += '<option value="'+index+'">'+item.continent+'</option>';
-    });
-    cont.innerHTML = text_html;
+    if(cont){
+        var text_html = '<option value="-1" selected >-- Select --</option>';
+        data.forEach(function(item, index){
+            text_html += '<option value="'+index+'">'+item.continent+'</option>';
+        });
+        cont.innerHTML = text_html;
+    }
 }
 
 $("#select_continent").click(function(){
