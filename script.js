@@ -1,27 +1,106 @@
 var apiKey = "06b42691-258b-41d2-8cce-da98d58d98a6";
-var url = "https://api.globalgiving.org/api/public/services/search/projects?api_key="+apiKey+"&q=test&filter=theme:edu,country:IN";
-var countrys;
+var base_url = "https://api.globalgiving.org/api/public/services/search/projects?api_key="+apiKey;
+var themesURL = "https://api.globalgiving.org/api/public/projectservice/themes?api_key="+apiKey;
+var data;
+var themes;
 $(document).ready(function(){
-    console.log("ready!");
     $.getJSON("isoCountrys.json", function(json) {
-        countrys = json; // this will show the info it in firebug console
-        console.log(json);
+        data = json; // this will show the info it in firebug console
+        show_continents();
     });
+    get_themes();
+    
 });
 
-$("#go").click(function(){
-    console.log("GO!");
+function get_themes(){
     $.ajax({
-        url: url,
+        url: themesURL,
         type: 'GET',
         dataType: 'json',
         success: function(data) {
-            // console.log(data.search.response);
-            // console.log(data.search.response.numberFound);
+            themes = data.themes.theme;
+            var themes_input = $('#select_themes')[0];
+            var text_html = '<option value="-1" selected >-- Select --</option>'; 
+            themes.forEach(function(item){
+                text_html += '<option value="'+item.id+'">'+item.name+'</option>';
+            });
+            themes_input.innerHTML = text_html;
+        },
+        error: function(data){
+            console.error(data);
+        }
+    });
+}
+
+function show_continents(){
+    var cont = $('#select_continent')[0];
+    var text_html = '<option value="-1" selected >-- Select --</option>';
+    data.forEach(function(item, index){
+        text_html += '<option value="'+index+'">'+item.continent+'</option>';
+    });
+    cont.innerHTML = text_html;
+}
+
+$("#select_continent").click(function(){
+    var op_value = $(this).find(":selected").val();
+    if(op_value >= 0){
+        show_contries(op_value);
+    }else{
+        $('#select_country').hide();
+    }
+});
+
+function show_contries(op){
+    data.forEach(function(item, index){
+        if(op == index){
+            var countries = item.countries;
+            var cont = $('#select_country')[0];
+            $('#select_country').show();
+            var text_html = '<option value="-1" selected >-- Select --</option>';
+            countries.forEach(function(item){
+                text_html += '<option value="'+item.code+'">'+item.Name+'</option>';
+            });
+            cont.innerHTML = text_html;
+        }
+    });
+}
+
+
+$("#go").click(function(){
+    var cur_url = base_url;
+    var seach = $("#search_input").val();
+    if(seach != ""){
+        seach = seach.replace(" ", "+");
+        cur_url += "&q="+seach;
+    }else{
+        cur_url += "&q=*";
+    }
+    var filter = "";
+    var theme = $('#select_themes').find(":selected").val();
+    if(theme != '-1' && theme){
+        filter += "&filter=theme:"+theme;
+    }
+    var cont = $('#select_continent').find(":selected").val();
+    if(cont >= 0){
+        var cur_country = $('#select_country').find(":selected").val();
+        console.log("coutry:"+cur_country);
+        if(cur_country != "-1"){
+            if(filter == ""){
+                filter += "&filter=country:"+cur_country;
+            }else{
+                filter += ",country:"+cur_country;
+            }
+        }
+    }
+    cur_url += filter;
+    $.ajax({
+        url: cur_url,
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
             if(data.search.response.numberFound > 0){
                 var projects = data.search.response.projects.project;
                 // console.log(data.search.response.projects);
-                console.log(projects);
                 projects.forEach(addToBody);
             }
             
@@ -36,5 +115,4 @@ $("#go").click(function(){
 
 function addToBody(item){
     console.log(item);
-
 }
